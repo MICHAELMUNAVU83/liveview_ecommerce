@@ -87,6 +87,10 @@ defmodule LiveviewEcommerce.Products do
   """
   def delete_product(%Product{} = product) do
     Repo.delete(product)
+    |> case do
+      {:ok, _} -> {:ok, product}
+      {:error, changeset} -> {:error, changeset}
+    end
   end
 
   @doc """

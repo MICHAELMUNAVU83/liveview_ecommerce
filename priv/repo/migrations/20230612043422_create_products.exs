@@ -6,6 +6,7 @@ defmodule LiveviewEcommerce.Repo.Migrations.CreateProducts do
       add(:name, :string)
       add(:price, :integer)
       add(:images, {:array, :string}, default: [])
+      
 
       timestamps()
     end
