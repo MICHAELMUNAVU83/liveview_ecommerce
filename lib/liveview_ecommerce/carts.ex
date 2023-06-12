@@ -79,6 +79,10 @@ defmodule LiveviewEcommerce.Carts do
     |> Repo.update()
   end
 
+  def delete_cart_by_product(product) do
+    Repo.delete_all(from(p in Cart, where: p.product_id == ^product.id))
+  end
+
   @doc """
   Deletes a cart.
 

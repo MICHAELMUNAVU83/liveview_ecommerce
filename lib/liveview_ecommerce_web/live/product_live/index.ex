@@ -42,6 +42,9 @@ defmodule LiveviewEcommerceWeb.ProductLive.Index do
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     product = Products.get_product!(id)
+
+    Carts.delete_cart_by_product(product)
+
     {:ok, _} = Products.delete_product(product)
 
     {:noreply, assign(socket, :products, list_products())}

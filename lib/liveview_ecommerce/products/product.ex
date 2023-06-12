@@ -6,6 +6,7 @@ defmodule LiveviewEcommerce.Products.Product do
     field :name, :string
     field :price, :integer
     field :images, {:array, :string}, default: []
+    has_many(:carts, LiveviewEcommerce.Carts.Cart)
 
     timestamps()
   end
