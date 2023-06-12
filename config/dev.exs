@@ -2,7 +2,6 @@ import Config
 
 # Configure your database
 config :liveview_ecommerce, LiveviewEcommerce.Repo,
- 
   hostname: "localhost",
   database: "liveview_ecommerce_dev",
   stacktrace: true,
