@@ -16,15 +16,23 @@
 <table>
   <thead>
     <tr>
+      <th>Images</th>
       <th>Name</th>
       <th>Price</th>
 
-      <th></th>
+      <th>
+        Actions
+      </th>
     </tr>
   </thead>
   <tbody id="products">
     <%= for product <- @products do %>
       <tr id={"product-#{product.id}"}>
+        <td>
+          <%= for image <- product.images do %>
+            <img src={image} style="width: 100px; height: 100px;"/>
+          <% end %>
+        </td>
         <td><%= product.name %></td>
         <td><%= product.price %></td>
 

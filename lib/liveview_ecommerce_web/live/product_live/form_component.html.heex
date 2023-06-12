@@ -18,6 +18,30 @@
     <%= error_tag(f, :price) %>
 
     <div>
+      <p>
+        Product Images
+      </p>
+      <%= live_file_input(@uploads.product_images) %>
+      <span>
+        Add up to 3 images
+      </span>
+    </div>
+
+    <%= for entry <- @uploads.product_images.entries do %>
+      <div>
+        <%= live_img_preview(entry, style: "width: 100px; height: 100px;") %>
+        <button
+          type="button"
+          phx-click="cancel-upload"
+          phx-value-ref={entry.ref}
+          phx-target={@myself}
+        >
+          Cancel
+        </button>
+      </div>
+    <% end %>
+
+    <div>
       <%= submit("Save", phx_disable_with: "Saving...") %>
     </div>
   </.form>
