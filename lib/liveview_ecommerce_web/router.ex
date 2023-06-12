@@ -18,14 +18,16 @@ defmodule LiveviewEcommerceWeb.Router do
   end
 
   scope "/", LiveviewEcommerceWeb do
-    pipe_through [:browser, :require_authenticated_user]
+    pipe_through([:browser, :require_authenticated_user])
 
-    live "/", ProductLive.Index, :index
-    live "/products/new", ProductLive.Index, :new
-    live "/products/:id/edit", ProductLive.Index, :edit
+    live("/", ProductLive.Index, :index)
+    live("/products/new", ProductLive.Index, :new)
+    live("/products/:id/edit", ProductLive.Index, :edit)
 
-    live "/products/:id", ProductLive.Show, :show
-    live "/products/:id/show/edit", ProductLive.Show, :edit
+    live("/products/:id", ProductLive.Show, :show)
+    live("/products/:id/show/edit", ProductLive.Show, :edit)
+
+    live("/carts", CartLive.Index, :index)
   end
 
   # Other scopes may use custom stacks.
@@ -44,9 +46,9 @@ defmodule LiveviewEcommerceWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
+      pipe_through(:browser)
 
-      live_dashboard "/dashboard", metrics: LiveviewEcommerceWeb.Telemetry
+      live_dashboard("/dashboard", metrics: LiveviewEcommerceWeb.Telemetry)
     end
   end
 
@@ -56,7 +58,7 @@ defmodule LiveviewEcommerceWeb.Router do
   # node running the Phoenix server.
   if Mix.env() == :dev do
     scope "/dev" do
-      pipe_through :browser
+      pipe_through(:browser)
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
@@ -65,7 +67,7 @@ defmodule LiveviewEcommerceWeb.Router do
   ## Authentication routes
 
   scope "/", LiveviewEcommerceWeb do
-    pipe_through [:browser, :redirect_if_user_is_authenticated]
+    pipe_through([:browser, :redirect_if_user_is_authenticated])
 
     get "/users/register", UserRegistrationController, :new
     post "/users/register", UserRegistrationController, :create
@@ -78,7 +80,7 @@ defmodule LiveviewEcommerceWeb.Router do
   end
 
   scope "/", LiveviewEcommerceWeb do
-    pipe_through [:browser, :require_authenticated_user]
+    pipe_through([:browser, :require_authenticated_user])
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
@@ -86,7 +88,7 @@ defmodule LiveviewEcommerceWeb.Router do
   end
 
   scope "/", LiveviewEcommerceWeb do
-    pipe_through [:browser]
+    pipe_through([:browser])
 
     delete "/users/log_out", UserSessionController, :delete
     get "/users/confirm", UserConfirmationController, :new
