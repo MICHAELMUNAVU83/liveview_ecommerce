@@ -17,7 +17,11 @@ This is a simple E-commerce app that allows users to add items to cart and check
 
 ## Screenshots
 
-<img width="1440" alt="Screenshot 2023-06-05 at 07 45 05" src="https://github.com/MICHAELMUNAVU83/art_store/assets/86654131/3b8a3c8f-5979-4375-a409-d66e69845ab1">
+<img width="1440" alt="Screenshot 2023-06-12 at 10 19 24" src="https://github.com/MICHAELMUNAVU83/liveview_ecommerce/assets/86654131/32a16081-2968-4550-9a03-5d05f24d1891">
+
+
+
+
 
 ## Technologies
 
