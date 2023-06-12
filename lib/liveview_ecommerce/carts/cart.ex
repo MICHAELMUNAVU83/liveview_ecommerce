@@ -3,9 +3,9 @@ defmodule LiveviewEcommerce.Carts.Cart do
   import Ecto.Changeset
 
   schema "carts" do
-    field :quantity, :integer, default: 1
-    field :user_id, :id
-    field :product_id, :id
+    field(:quantity, :integer, default: 1)
+    belongs_to(:user, LiveviewEcommerce.Users.User)
+    belongs_to(:product, LiveviewEcommerce.Products.Product)
 
     timestamps()
   end

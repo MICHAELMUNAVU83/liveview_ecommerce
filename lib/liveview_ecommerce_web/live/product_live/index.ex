@@ -3,10 +3,17 @@ defmodule LiveviewEcommerceWeb.ProductLive.Index do
 
   alias LiveviewEcommerce.Products
   alias LiveviewEcommerce.Products.Product
+  alias LiveviewEcommerce.Users
+  alias LiveviewEcommerce.Carts
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :products, list_products())}
+  def mount(_params, session, socket) do
+    user = Users.get_user_by_session_token(session["user_token"])
+
+    {:ok,
+     socket
+     |> assign(:products, list_products())
+     |> assign(:user, user)}
   end
 
   @impl true
@@ -38,6 +45,20 @@ defmodule LiveviewEcommerceWeb.ProductLive.Index do
     {:ok, _} = Products.delete_product(product)
 
     {:noreply, assign(socket, :products, list_products())}
+  end
+
+  def handle_event("add_to_cart", %{"id" => id}, socket) do
+    product = Products.get_product!(id)
+    user = socket.assigns.user
+
+    cart_params = %{
+      user_id: user.id,
+      product_id: product.id
+    }
+
+    Carts.create_cart(cart_params)
+
+    {:noreply, redirect(socket, to: Routes.cart_index_path(socket, :index))}
   end
 
   defp list_products do

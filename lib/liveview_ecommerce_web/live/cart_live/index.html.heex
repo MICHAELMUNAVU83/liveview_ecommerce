@@ -16,24 +16,53 @@
 <table>
   <thead>
     <tr>
+      <th>Product images</th>
+      <th>Product name</th>
+      <th>Product price</th>
       <th>Quantity</th>
 
-      <th></th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody id="carts">
     <%= for cart <- @carts do %>
       <tr id={"cart-#{cart.id}"}>
-        <td><%= cart.quantity %></td>
+        <td>
+          <%= for image <- cart.product.images do %>
+            <img src={image} style="width: 100px; height: 100px;" />
+          <% end %>
+        </td>
+
+        <td><%= cart.product.name %></td>
+        <td><%= cart.product.price %></td>
+        <td>
+          <%= link("+",
+            to: "#",
+            phx_click: "add",
+            phx_value_id: cart.id,
+            style:
+              " background-color: #1e90ff; color: white; padding: 2px 5px; border-radius: 5px;"
+          ) %>
+          <%= cart.quantity %>
+          <%= link("-",
+            to: "#",
+            phx_click: "subtract",
+            phx_value_id: cart.id,
+            style: " background-color: red; color: white; padding: 2px 5px; border-radius: 5px;"
+          ) %>
+        </td>
 
         <td>
-          <span><%= live_redirect "Show", to: Routes.cart_show_path(@socket, :show, cart) %></span>
-          <span><%= live_patch "Edit", to: Routes.cart_index_path(@socket, :edit, cart) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: cart.id, data: [confirm: "Are you sure?"] %></span>
+          <span>
+            <%= link("Delete",
+              to: "#",
+              phx_click: "delete",
+              phx_value_id: cart.id,
+              data: [confirm: "Are you sure?"]
+            ) %>
+          </span>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<span><%= live_patch "New Cart", to: Routes.cart_index_path(@socket, :new) %></span>

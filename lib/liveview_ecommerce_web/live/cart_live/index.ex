@@ -3,10 +3,12 @@ defmodule LiveviewEcommerceWeb.CartLive.Index do
 
   alias LiveviewEcommerce.Carts
   alias LiveviewEcommerce.Carts.Cart
+  alias LiveviewEcommerce.Users
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :carts, list_carts())}
+  def mount(_params, session, socket) do
+    user = Users.get_user_by_session_token(session["user_token"])
+    {:ok, socket |> assign(:carts, Carts.list_carts_by_user(user.id))}
   end
 
   @impl true
@@ -37,7 +39,29 @@ defmodule LiveviewEcommerceWeb.CartLive.Index do
     cart = Carts.get_cart!(id)
     {:ok, _} = Carts.delete_cart(cart)
 
-    {:noreply, assign(socket, :carts, list_carts())}
+    {:noreply, assign(socket, :carts, Carts.list_carts_by_user(socket.assigns.user.id))}
+  end
+
+  def handle_event("add", %{"id" => id}, socket) do
+    cart = Carts.get_cart!(id)
+
+    {:ok, _} = Carts.update_cart(cart, %{"quantity" => cart.quantity + 1})
+
+    {:noreply,
+     socket
+     |> assign(:carts, Carts.list_carts_by_user(socket.assigns.user.id))}
+  end
+
+  def handle_event("subtract", %{"id" => id}, socket) do
+    cart = Carts.get_cart!(id)
+
+    if cart.quantity > 1 do
+      {:ok, _} = Carts.update_cart(cart, %{"quantity" => cart.quantity - 1})
+    end
+
+    {:noreply,
+     socket
+     |> assign(:carts, Carts.list_carts_by_user(socket.assigns.user.id))}
   end
 
   defp list_carts do

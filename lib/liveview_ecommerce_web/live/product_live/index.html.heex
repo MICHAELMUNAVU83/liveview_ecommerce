@@ -23,6 +23,9 @@
       <th>
         Actions
       </th>
+      <th>
+        Cart
+      </th>
     </tr>
   </thead>
   <tbody id="products">
@@ -30,7 +33,7 @@
       <tr id={"product-#{product.id}"}>
         <td>
           <%= for image <- product.images do %>
-            <img src={image} style="width: 100px; height: 100px;"/>
+            <img src={image} style="width: 100px; height: 100px;" />
           <% end %>
         </td>
         <td><%= product.name %></td>
@@ -51,6 +54,17 @@
               data: [confirm: "Are you sure?"]
             ) %>
           </span>
+        </td>
+
+        <td>
+          <button>
+            <%= link("Add to cart",
+              to: "#",
+              phx_click: "add_to_cart",
+              phx_value_id: product.id,
+              style: "color: white;"
+            ) %>
+          </button>
         </td>
       </tr>
     <% end %>
